@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en" data-theme="pastel">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Reading Journal</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar" aria-expanded="true">
+      <div class="sidebar-inner">
+
+        <div class="brand-compact">
+          <div class="logo">📚</div>
+          <div class="brand-text">
+            <div class="brand-title">my reading journal</div>
+            <div class="brand-sub">notes • vibes • reflections</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-btn active" data-target="homeSection">🏠 Home</button>
+          <button class="nav-btn" data-target="shelfSection">📚 Shelf</button>
+          <button class="nav-btn" data-target="postsSection">📝 Notes</button>
+          <button class="nav-btn" data-target="timelineSection">📅 Timeline</button>
+          <button class="nav-btn" data-target="goalsSection">🎯 Goals</button>
+        </nav>
+
+        <div class="sidebar-actions">
+          <button id="addBookBtn" class="pill accent">＋ Add Book</button>
+          <button id="profileBtn" class="pill">Profile</button>
+          <button id="exportBtn" class="pill">Export JSON</button>
+          <label for="importFile" class="pill" id="importLabel">Import JSON</label>
+          <input id="importFile" type="file" accept="application/json" style="display:none">
+          <button id="themeToggle" class="pill secondary">pastel ↔ cyber</button>
+        </div>
+
+        <button id="collapseSidebar" class="collapse-btn" aria-expanded="true">⬅</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-wrap">
+
+      <header class="site-header">
+        <div class="container header-inner">
+          <div class="brand header-brand">
+            <div class="logo-small">📚</div>
+            <h1 class="site-title">my reading journal</h1>
+          </div>
+
+          <div>
+            <button id="mobileMenuBtn" class="icon-btn mobile-menu-btn">☰</button>
+          </div>
+        </div>
+      </header>
+
+      <main id="mainContent" class="container">
+
+        <!-- HOME (minimal: hero + stats) -->
+        <section id="homeSection" class="page-section active">
+          <div class="hero card">
+            <div class="hero-left">
+              <div class="hero-top">
+                <img id="profileAvatar" src="https://i.imgur.com/O7pZ4Gq.jpeg" alt="avatar" class="avatar" />
+                <div>
+                  <h2 class="hero-title" id="profileName">Turning pages → turning thoughts</h2>
+                  <p class="hero-sub">Honest reflections & what I actually understood.</p>
+                </div>
+              </div>
+              <div class="hero-meta" id="heroMeta">
+                <span id="totalBooks">0 books</span>
+                <span id="pagesRead">• 0 pages</span>
+                <span id="moodsSeen">• 0 vibes</span>
+              </div>
+            </div>
+
+            <div class="hero-right">
+              <div class="search-row">
+                <input id="searchInput" placeholder="Search title / author / vibe..." />
+                <button id="searchBtn" class="pill">Go</button>
+              </div>
+
+              <select id="statusFilter">
+                <option value="">All statuses</option>
+                <option value="read">Read</option>
+                <option value="reading">Reading</option>
+                <option value="want">Want to read</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card stats-card">
+            <div id="stats" class="stats-grid"></div>
+          </div>
+        </section>
+
+        <!-- SHELF -->
+        <section id="shelfSection" class="page-section">
+          <div class="card">
+            <div class="section-header">
+              <h3>My Shelf</h3>
+              <div class="shelf-pill">Click any cover to open details</div>
+            </div>
+            <div id="shelf" class="shelf"></div>
+          </div>
+        </section>
+
+        <!-- POSTS -->
+        <section id="postsSection" class="page-section">
+          <div class="card">
+            <div class="section-header">
+              <h3>My Notes</h3>
+            </div>
+            <div id="posts" class="posts-grid"></div>
+          </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section id="timelineSection" class="page-section">
+          <div class="card">
+            <div class="section-header">
+              <h3>Reading Timeline</h3>
+            </div>
+            <div id="timeline" class="timeline"></div>
+          </div>
+        </section>
+
+        <!-- GOALS -->
+        <section id="goalsSection" class="page-section">
+          <div class="card">
+            <div class="section-header">
+              <h3>Goals Dashboard</h3>
+              <div class="shelf-pill">Track your reading goals</div>
+            </div>
+
+            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px">
+              <div style="min-width:260px;">
+                <label>Monthly goal (books)</label>
+                <input id="goalMonthly" type="number" min="0" style="width:100%;padding:10px;border-radius:8px;margin-top:8px"/>
+                <div style="margin-top:10px">Progress: <span id="goalMonthlyProgress">0%</span></div>
+              </div>
+
+              <div style="min-width:260px;">
+                <label>Yearly goal (books)</label>
+                <input id="goalYearly" type="number" min="0" style="width:100%;padding:10px;border-radius:8px;margin-top:8px"/>
+                <div style="margin-top:10px">Progress: <span id="goalYearlyProgress">0%</span></div>
+              </div>
+
+              <div style="flex:1;min-width:220px;">
+                <label>Export CSV</label>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                  <button id="exportCSV" class="pill">Export CSV</button>
+                  <button id="resetData" class="pill secondary">Factory Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- BOOK MODAL -->
+  <div id="bookModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button id="closeModal" class="close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div id="adminModal" class="modal" aria-hidden="true" style="display:none;">
+    <div class="admin-modal-content">
+      <button class="close admin-close">✕</button>
+      <h2>Add New Book</h2>
+      <div class="admin-form">
+        <input id="adm_title" placeholder="Title" />
+        <input id="adm_author" placeholder="Author" />
+        <input id="adm_cover" placeholder="Cover Image URL" />
+        <input id="adm_pages" type="number" placeholder="Pages" />
+        <input id="adm_progress" type="number" placeholder="Progress % (0-100)" />
+        <select id="adm_status">
+          <option value="read">Read</option>
+          <option value="reading">Reading</option>
+          <option value="want">Want to read</option>
+        </select>
+        <input id="adm_date" type="date" />
+        <input id="adm_mood" placeholder="Moods (comma separated)" />
+        <textarea id="adm_short" placeholder="Short summary"></textarea>
+        <textarea id="adm_understood" placeholder="What you understood"></textarea>
+        <textarea id="adm_lessons" placeholder="Lessons (one per line)"></textarea>
+        <textarea id="adm_quotes" placeholder="Quotes (one per line)"></textarea>
+        <button id="adm_save" class="pill admin-save-btn">Save Book</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profileModal" class="modal" aria-hidden="true" style="display:none;">
+    <div class="admin-modal-content">
+      <button class="close profile-close">✕</button>
+      <h2>Profile</h2>
+      <div style="display:flex;gap:14px;align-items:center">
+        <img id="profilePreview" src="https://i.imgur.com/O7pZ4Gq.jpeg" alt="preview" style="width:86px;height:86px;border-radius:12px;object-fit:cover">
+        <div style="flex:1">
+          <input id="profileNameInput" placeholder="Display name" />
+          <input id="profileAvatarInput" placeholder="Avatar image URL" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="saveProfile" class="pill">Save</button>
+            <button id="clearProfile" class="pill secondary">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button id="fabAdd" class="fab-add" title="Add book">＋</button>
+
+  <input id="importFile" type="file" accept="application/json" style="display:none">
+
+  <script src="script.js"></script>
+</body>
+</html>
